@@ -1,0 +1,7 @@
+build
+.eggs
+SeeMee.egg-info
+setup.cmd
+SeeMee/*.pyd
+cythonize.cmd
+build_exts.cmd
