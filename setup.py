@@ -1,23 +1,9 @@
 import sys
 import setuptools
-from setuptools.dist import Distribution
-
-videocapture_download_url = 'https://download.lfd.uci.edu/pythonlibs/s2jqpv5t/VideoCapture-0.9.5-%s.whl'
-
-def wheel_distname_name_tag(**kwargs):
-    # create a fake distribution from arguments
-    dist = Distribution(attrs=kwargs)
-    # finalize bdist_wheel command
-    bdist_wheel_cmd = dist.get_command_obj('bdist_wheel')
-    bdist_wheel_cmd.ensure_finalized()
-    # assemble wheel file name
-    distname = bdist_wheel_cmd.wheel_dist_name
-    tag = bdist_wheel_cmd.get_tag()
-    return '%s-%s.whl' % (distname, '-'.join(tag)), distname, tag
 
 options = dict(
     name = 'SeeMee',
-    version = '0.0.3.2',
+    version = '0.4.0',
     url = 'https://github.com/gaming32/SeeMee',
     author = 'Gaming32',
     author_email = 'gaming32i64@gmail.com',
@@ -46,11 +32,6 @@ options = dict(
 )
 
 if sys.platform[:3] == 'win':
-    videocapture_download_url = videocapture_download_url % '-'.join(wheel_distname_name_tag(**options)[2])
-    open('seemee-dependencies-web.txt', 'w').write(videocapture_download_url + '\n')
-    options['install_requires'].append('requests')
-    options['data_files'].append('seemee-dependencies-web.txt')
-
-# print(videocapture_download_url)
+    options['install_requires'].append('VideoCapture')
 
 setuptools.setup(**options)
