@@ -6,3 +6,4 @@ setup.cmd
 SeeMee/*.pyd
 cythonize.cmd
 build_exts.cmd
+train_api_key

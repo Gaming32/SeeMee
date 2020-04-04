@@ -1,10 +1,31 @@
 import os
+import requests
+
 def count_files_in_dir(path):
     count = 0
     for name in os.listdir(path):
         if os.path.isfile(os.path.join(path, name)):
             count += 1
     return count
+
+api_url = 'https://www.googleapis.com/customsearch/v1'
+api_base_payload = dict(
+    q = '',
+    num = 10,
+    start = 1,
+    imgSize = 'medium',
+    searchType = 'image',
+    key = '',
+    cx = '',
+)
+
+def load_api_key(file=os.path.join(os.path.dirname(__file__), 'train_api_key')):
+    for (linenum, line) in enumerate(open(file)):
+        if linenum == 0:
+            api_base_payload['key'] = line.rstrip()
+        elif linenum == 1:
+            api_base_payload['cx'] = line.rstrip()
+        else: break
 
 def main():
     if not os.path.exists('train_images'):
