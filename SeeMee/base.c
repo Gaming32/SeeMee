@@ -821,7 +821,7 @@ struct __pyx_obj_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run;
 struct __pyx_obj_6SeeMee_4base___pyx_scope_struct_1_genexpr;
 struct __pyx_obj_6SeeMee_4base___pyx_scope_struct_2_genexpr;
 
-/* "SeeMee/base.pyx":14
+/* "SeeMee/base.pyx":13
  * 
  * 
  * cdef int run(args):             # <<<<<<<<<<<<<<
@@ -834,8 +834,8 @@ struct __pyx_obj_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run {
 };
 
 
-/* "SeeMee/base.pyx":31
- *     del cameras_pre
+/* "SeeMee/base.pyx":34
+ *         return 1
  * 
  *     print('cameras:', ', '.join(str(x) for x in cameras))             # <<<<<<<<<<<<<<
  *     for (i, camera) in enumerate(cameras):
@@ -848,12 +848,12 @@ struct __pyx_obj_6SeeMee_4base___pyx_scope_struct_1_genexpr {
 };
 
 
-/* "SeeMee/base.pyx":37
- *         cameras[i].start()
+/* "SeeMee/base.pyx":40
+ *         cameras[i][1].start()
  *         print('initialized camera', camera)
- *     print('camera names:', ', '.join(x.dev.getdisplayname() for x in cameras))             # <<<<<<<<<<<<<<
+ *     print('camera names:', ', '.join(x[1].dev.getdisplayname() for x in cameras))             # <<<<<<<<<<<<<<
  * 
- *     return 0
+ *     cdef int camera_ix, camera_count
  */
 struct __pyx_obj_6SeeMee_4base___pyx_scope_struct_2_genexpr {
   PyObject_HEAD
@@ -1001,6 +1001,28 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
@@ -1104,27 +1126,8 @@ static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
 static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
                                                int is_list, int wraparound, int boundscheck);
 
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
+/* None.proto */
+static CYTHON_INLINE long __Pyx_mod_long(long, long);
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1166,6 +1169,18 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
 /* ArgTypeTest.proto */
 #define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
@@ -1227,11 +1242,11 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
-/* CIntFromPy.proto */
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
-
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -1381,112 +1396,116 @@ int __pyx_module_is_main_SeeMee__base = 0;
 static PyObject *__pyx_builtin_open;
 static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_enumerate;
-static const char __pyx_k_V[] = "-V";
-static const char __pyx_k_c[] = "-c";
-static const char __pyx_k_i[] = "-i";
+static const char __pyx_k_s[] = "(%s)";
 static const char __pyx_k_w[] = "w";
-static const char __pyx_k_ID[] = "ID";
-static const char __pyx_k__3[] = ", ";
+static const char __pyx_k__4[] = ", ";
 static const char __pyx_k_os[] = "os";
 static const char __pyx_k_all[] = "__all__";
 static const char __pyx_k_dev[] = "dev";
+static const char __pyx_k_get[] = "get";
 static const char __pyx_k_sys[] = "sys";
-static const char __pyx_k_args[] = "args:";
+static const char __pyx_k_QUIT[] = "QUIT";
+static const char __pyx_k_args[] = "args";
 static const char __pyx_k_argv[] = "argv";
-static const char __pyx_k_dest[] = "dest";
-static const char __pyx_k_info[] = "info";
+static const char __pyx_k_blit[] = "blit";
 static const char __pyx_k_init[] = "init";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_open[] = "open";
+static const char __pyx_k_quit[] = "quit";
 static const char __pyx_k_send[] = "send";
+static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_tick[] = "tick";
+static const char __pyx_k_time[] = "time";
 static const char __pyx_k_type[] = "type";
+static const char __pyx_k_Clock[] = "Clock";
 static const char __pyx_k_close[] = "close";
+static const char __pyx_k_event[] = "event";
 static const char __pyx_k_print[] = "print";
+static const char __pyx_k_scale[] = "scale";
 static const char __pyx_k_start[] = "start";
 static const char __pyx_k_throw[] = "throw";
 static const char __pyx_k_Camera[] = "Camera";
-static const char __pyx_k_SeeMee[] = "SeeMee ";
-static const char __pyx_k_action[] = "action";
-static const char __pyx_k_append[] = "append";
-static const char __pyx_k_args_2[] = "args";
 static const char __pyx_k_camera[] = "camera";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_main_2[] = "main";
 static const char __pyx_k_pygame[] = "pygame";
 static const char __pyx_k_stdout[] = "stdout";
+static const char __pyx_k_update[] = "update";
 static const char __pyx_k_cameras[] = "cameras:";
-static const char __pyx_k_default[] = "default";
 static const char __pyx_k_devnull[] = "devnull";
+static const char __pyx_k_display[] = "display";
 static const char __pyx_k_genexpr[] = "genexpr";
-static const char __pyx_k_metavar[] = "metavar";
-static const char __pyx_k_version[] = "__version__";
-static const char __pyx_k_argparse[] = "argparse";
+static const char __pyx_k_get_size[] = "get_size";
+static const char __pyx_k_set_mode[] = "set_mode";
 static const char __pyx_k_stdout_2[] = "__stdout__";
+static const char __pyx_k_stopping[] = "stopping";
+static const char __pyx_k_arguments[] = "arguments";
 static const char __pyx_k_enumerate[] = "enumerate";
-static const char __pyx_k_version_2[] = "--version";
-static const char __pyx_k_version_3[] = "version";
+static const char __pyx_k_framerate[] = "framerate";
+static const char __pyx_k_get_image[] = "get_image";
+static const char __pyx_k_transform[] = "transform";
+static const char __pyx_k_check_time[] = "check_time";
 static const char __pyx_k_parse_args[] = "parse_args";
+static const char __pyx_k_resolution[] = "resolution";
 static const char __pyx_k_SeeMee_base[] = "SeeMee.base";
-static const char __pyx_k_add_argument[] = "add_argument";
 static const char __pyx_k_camera_names[] = "camera names:";
 static const char __pyx_k_list_cameras[] = "list_cameras";
-static const char __pyx_k_ignore_camera[] = "--ignore-camera";
 static const char __pyx_k_pygame_camera[] = "pygame.camera";
-static const char __pyx_k_ArgumentParser[] = "ArgumentParser";
 static const char __pyx_k_getdisplayname[] = "getdisplayname";
 static const char __pyx_k_ignore_cameras[] = "ignore_cameras";
-static const char __pyx_k_include_camera[] = "--include-camera";
 static const char __pyx_k_SeeMee_base_pyx[] = "SeeMee\\base.pyx";
 static const char __pyx_k_argument_parser[] = "argument_parser";
 static const char __pyx_k_include_cameras[] = "include_cameras";
+static const char __pyx_k_no_cameras_found[] = "no cameras found";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_initialized_camera[] = "initialized camera";
 static const char __pyx_k_pygame_initialized[] = "pygame initialized";
 static const char __pyx_k_run_locals_genexpr[] = "run.<locals>.genexpr";
+static const char __pyx_k_switched_to_camera[] = "switched to camera";
 static const char __pyx_k_initializing_camera[] = "initializing camera";
 static const char __pyx_k_initializing_pygame[] = "initializing pygame";
-static PyObject *__pyx_n_s_ArgumentParser;
+static const char __pyx_k_deinitialized_camera[] = "deinitialized camera";
+static const char __pyx_k_deinitialized_pygame[] = "deinitialized pygame";
+static const char __pyx_k_deinitializing_camera[] = "deinitializing camera";
+static const char __pyx_k_deinitializing_pygame[] = "deinitializing pygame";
 static PyObject *__pyx_n_s_Camera;
-static PyObject *__pyx_n_u_ID;
-static PyObject *__pyx_kp_u_SeeMee;
+static PyObject *__pyx_n_s_Clock;
+static PyObject *__pyx_n_s_QUIT;
 static PyObject *__pyx_n_s_SeeMee_base;
 static PyObject *__pyx_kp_s_SeeMee_base_pyx;
-static PyObject *__pyx_kp_u_V;
-static PyObject *__pyx_kp_u__3;
-static PyObject *__pyx_n_s_action;
-static PyObject *__pyx_n_s_add_argument;
+static PyObject *__pyx_kp_u__4;
 static PyObject *__pyx_n_s_all;
-static PyObject *__pyx_n_u_append;
-static PyObject *__pyx_n_s_argparse;
-static PyObject *__pyx_kp_u_args;
-static PyObject *__pyx_n_s_args_2;
+static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_argument_parser;
-static PyObject *__pyx_n_u_argument_parser;
+static PyObject *__pyx_n_s_arguments;
 static PyObject *__pyx_n_s_argv;
-static PyObject *__pyx_kp_u_c;
+static PyObject *__pyx_n_s_blit;
 static PyObject *__pyx_n_s_camera;
 static PyObject *__pyx_kp_u_camera_names;
 static PyObject *__pyx_kp_u_cameras;
+static PyObject *__pyx_n_s_check_time;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_close;
-static PyObject *__pyx_n_s_default;
-static PyObject *__pyx_n_s_dest;
+static PyObject *__pyx_kp_u_deinitialized_camera;
+static PyObject *__pyx_kp_u_deinitialized_pygame;
+static PyObject *__pyx_kp_u_deinitializing_camera;
+static PyObject *__pyx_kp_u_deinitializing_pygame;
 static PyObject *__pyx_n_s_dev;
 static PyObject *__pyx_n_s_devnull;
+static PyObject *__pyx_n_s_display;
 static PyObject *__pyx_n_s_enumerate;
+static PyObject *__pyx_n_s_event;
+static PyObject *__pyx_n_s_framerate;
 static PyObject *__pyx_n_s_genexpr;
+static PyObject *__pyx_n_s_get;
+static PyObject *__pyx_n_s_get_image;
+static PyObject *__pyx_n_s_get_size;
 static PyObject *__pyx_n_s_getdisplayname;
-static PyObject *__pyx_kp_u_i;
-static PyObject *__pyx_kp_u_ignore_camera;
 static PyObject *__pyx_n_s_ignore_cameras;
-static PyObject *__pyx_n_u_ignore_cameras;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_kp_u_include_camera;
 static PyObject *__pyx_n_s_include_cameras;
-static PyObject *__pyx_n_u_include_cameras;
-static PyObject *__pyx_n_s_info;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_kp_u_initialized_camera;
 static PyObject *__pyx_kp_u_initializing_camera;
@@ -1495,8 +1514,8 @@ static PyObject *__pyx_n_s_list_cameras;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_main_2;
 static PyObject *__pyx_n_u_main_2;
-static PyObject *__pyx_n_s_metavar;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_kp_u_no_cameras_found;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_parse_args;
@@ -1504,19 +1523,27 @@ static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_pygame;
 static PyObject *__pyx_n_s_pygame_camera;
 static PyObject *__pyx_kp_u_pygame_initialized;
+static PyObject *__pyx_n_s_quit;
+static PyObject *__pyx_n_s_resolution;
 static PyObject *__pyx_n_s_run_locals_genexpr;
+static PyObject *__pyx_kp_u_s;
+static PyObject *__pyx_n_s_scale;
 static PyObject *__pyx_n_s_send;
+static PyObject *__pyx_n_s_set_mode;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_stdout;
 static PyObject *__pyx_n_s_stdout_2;
+static PyObject *__pyx_n_s_stop;
+static PyObject *__pyx_n_u_stopping;
+static PyObject *__pyx_kp_u_switched_to_camera;
 static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
+static PyObject *__pyx_n_s_tick;
+static PyObject *__pyx_n_s_time;
+static PyObject *__pyx_n_s_transform;
 static PyObject *__pyx_n_s_type;
-static PyObject *__pyx_n_s_version;
-static PyObject *__pyx_kp_u_version_2;
-static PyObject *__pyx_n_s_version_3;
-static PyObject *__pyx_n_u_version_3;
+static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_u_w;
 static PyObject *__pyx_pf_6SeeMee_4base_3run_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_6SeeMee_4base_3run_3genexpr(PyObject *__pyx_self); /* proto */
@@ -1524,18 +1551,22 @@ static PyObject *__pyx_pf_6SeeMee_4base_main(CYTHON_UNUSED PyObject *__pyx_self,
 static PyObject *__pyx_tp_new_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6SeeMee_4base___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6SeeMee_4base___pyx_scope_struct_2_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_int_0;
+static PyObject *__pyx_k__9;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
-static PyObject *__pyx_tuple__4;
+static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
-static PyObject *__pyx_codeobj__8;
+static PyObject *__pyx_tuple__8;
+static PyObject *__pyx_tuple__10;
+static PyObject *__pyx_codeobj__11;
 /* Late includes */
 static PyObject *__pyx_gb_6SeeMee_4base_3run_2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "SeeMee/base.pyx":31
- *     del cameras_pre
+/* "SeeMee/base.pyx":34
+ *         return 1
  * 
  *     print('cameras:', ', '.join(str(x) for x in cameras))             # <<<<<<<<<<<<<<
  *     for (i, camera) in enumerate(cameras):
@@ -1551,7 +1582,7 @@ static PyObject *__pyx_pf_6SeeMee_4base_3run_genexpr(PyObject *__pyx_self) {
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_6SeeMee_4base___pyx_scope_struct_1_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 31, __pyx_L1_error)
+    __PYX_ERR(0, 34, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -1559,7 +1590,7 @@ static PyObject *__pyx_pf_6SeeMee_4base_3run_genexpr(PyObject *__pyx_self) {
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6SeeMee_4base_3run_2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_run_locals_genexpr, __pyx_n_s_SeeMee_base); if (unlikely(!gen)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6SeeMee_4base_3run_2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_run_locals_genexpr, __pyx_n_s_SeeMee_base); if (unlikely(!gen)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -1591,30 +1622,30 @@ static PyObject *__pyx_gb_6SeeMee_4base_3run_2generator(__pyx_CoroutineObject *_
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 31, __pyx_L1_error)
-  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras)) { __Pyx_RaiseClosureNameError("cameras"); __PYX_ERR(0, 31, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras)) { __Pyx_RaiseClosureNameError("cameras"); __PYX_ERR(0, 34, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 31, __pyx_L1_error)
+    __PYX_ERR(0, 34, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 34, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_x);
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_x, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_cur_scope->__pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_cur_scope->__pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 31, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1639,12 +1670,12 @@ static PyObject *__pyx_gb_6SeeMee_4base_3run_2generator(__pyx_CoroutineObject *_
 }
 static PyObject *__pyx_gb_6SeeMee_4base_3run_5generator1(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "SeeMee/base.pyx":37
- *         cameras[i].start()
+/* "SeeMee/base.pyx":40
+ *         cameras[i][1].start()
  *         print('initialized camera', camera)
- *     print('camera names:', ', '.join(x.dev.getdisplayname() for x in cameras))             # <<<<<<<<<<<<<<
+ *     print('camera names:', ', '.join(x[1].dev.getdisplayname() for x in cameras))             # <<<<<<<<<<<<<<
  * 
- *     return 0
+ *     cdef int camera_ix, camera_count
  */
 
 static PyObject *__pyx_pf_6SeeMee_4base_3run_3genexpr(PyObject *__pyx_self) {
@@ -1656,7 +1687,7 @@ static PyObject *__pyx_pf_6SeeMee_4base_3run_3genexpr(PyObject *__pyx_self) {
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_6SeeMee_4base___pyx_scope_struct_2_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 37, __pyx_L1_error)
+    __PYX_ERR(0, 40, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -1664,7 +1695,7 @@ static PyObject *__pyx_pf_6SeeMee_4base_3run_3genexpr(PyObject *__pyx_self) {
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6SeeMee_4base_3run_5generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_run_locals_genexpr, __pyx_n_s_SeeMee_base); if (unlikely(!gen)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_6SeeMee_4base_3run_5generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_run_locals_genexpr, __pyx_n_s_SeeMee_base); if (unlikely(!gen)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -1698,48 +1729,51 @@ static PyObject *__pyx_gb_6SeeMee_4base_3run_5generator1(__pyx_CoroutineObject *
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_r = PyList_New(0); if (unlikely(!__pyx_r)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras)) { __Pyx_RaiseClosureNameError("cameras"); __PYX_ERR(0, 37, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras)) { __Pyx_RaiseClosureNameError("cameras"); __PYX_ERR(0, 40, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 37, __pyx_L1_error)
+    __PYX_ERR(0, 40, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_cameras; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 40, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_x);
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_x, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_x, __pyx_n_s_dev); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_v_x, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_getdisplayname); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_dev); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_getdisplayname); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 37, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(__Pyx_ListComp_Append(__pyx_r, (PyObject*)__pyx_t_3))) __PYX_ERR(0, 40, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1765,7 +1799,7 @@ static PyObject *__pyx_gb_6SeeMee_4base_3run_5generator1(__pyx_CoroutineObject *
   return __pyx_r;
 }
 
-/* "SeeMee/base.pyx":14
+/* "SeeMee/base.pyx":13
  * 
  * 
  * cdef int run(args):             # <<<<<<<<<<<<<<
@@ -1778,6 +1812,16 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
   int __pyx_v_i;
   PyObject *__pyx_v_cameras_pre = 0;
   PyObject *__pyx_v_camera = NULL;
+  int __pyx_v_camera_ix;
+  int __pyx_v_camera_count;
+  double __pyx_v_time_passed;
+  double __pyx_v_time_passed_seconds;
+  double __pyx_v_time_since_check;
+  PyObject *__pyx_v_resolution = 0;
+  PyObject *__pyx_v_window = NULL;
+  PyObject *__pyx_v_clock = NULL;
+  PyObject *__pyx_v_event = NULL;
+  PyObject *__pyx_v_frame = NULL;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1789,41 +1833,78 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
   int __pyx_t_7;
   int __pyx_t_8;
   PyObject *__pyx_t_9 = NULL;
+  double __pyx_t_10;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  Py_ssize_t __pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
+  long __pyx_t_14;
   __Pyx_RefNannySetupContext("run", 0);
   __pyx_cur_scope = (struct __pyx_obj_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run *)__pyx_tp_new_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run(__pyx_ptype_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 14, __pyx_L1_error)
+    __PYX_ERR(0, 13, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
 
-  /* "SeeMee/base.pyx":16
+  /* "SeeMee/base.pyx":15
  * cdef int run(args):
  *     cdef int i
  *     print('initializing pygame')             # <<<<<<<<<<<<<<
  *     pygame.init()
  *     pygame.camera.init()
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":17
+  /* "SeeMee/base.pyx":16
  *     cdef int i
  *     print('initializing pygame')
  *     pygame.init()             # <<<<<<<<<<<<<<
  *     pygame.camera.init()
  *     print('pygame initialized')
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "SeeMee/base.pyx":17
+ *     print('initializing pygame')
+ *     pygame.init()
+ *     pygame.camera.init()             # <<<<<<<<<<<<<<
+ *     print('pygame initialized')
+ *     # print('args:', args)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_camera); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
     __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
     if (likely(__pyx_t_2)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
@@ -1840,18 +1921,29 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "SeeMee/base.pyx":18
- *     print('initializing pygame')
  *     pygame.init()
- *     pygame.camera.init()             # <<<<<<<<<<<<<<
- *     print('pygame initialized')
- *     print('args:', args)
+ *     pygame.camera.init()
+ *     print('pygame initialized')             # <<<<<<<<<<<<<<
+ *     # print('args:', args)
+ * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "SeeMee/base.pyx":22
+ * 
+ *     cdef list cameras_pre, cameras
+ *     cameras_pre = pygame.camera.list_cameras()             # <<<<<<<<<<<<<<
+ *     cameras = []
+ *     for camera in cameras_pre:
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_camera); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_camera); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_list_cameras); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1866,90 +1958,27 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "SeeMee/base.pyx":19
- *     pygame.init()
- *     pygame.camera.init()
- *     print('pygame initialized')             # <<<<<<<<<<<<<<
- *     print('args:', args)
- * 
- */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "SeeMee/base.pyx":20
- *     pygame.camera.init()
- *     print('pygame initialized')
- *     print('args:', args)             # <<<<<<<<<<<<<<
- * 
- *     cdef list cameras_pre, cameras
- */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_kp_u_args);
-  __Pyx_GIVEREF(__pyx_kp_u_args);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_args);
-  __Pyx_INCREF(__pyx_v_args);
-  __Pyx_GIVEREF(__pyx_v_args);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_args);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_v_cameras_pre = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "SeeMee/base.pyx":23
- * 
- *     cdef list cameras_pre, cameras
- *     cameras_pre = pygame.camera.list_cameras()             # <<<<<<<<<<<<<<
- *     cameras = []
- *     for camera in cameras_pre:
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_camera); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_list_cameras); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(PyList_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 23, __pyx_L1_error)
-  __pyx_v_cameras_pre = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "SeeMee/base.pyx":24
  *     cdef list cameras_pre, cameras
  *     cameras_pre = pygame.camera.list_cameras()
  *     cameras = []             # <<<<<<<<<<<<<<
  *     for camera in cameras_pre:
  *         if camera not in args.ignore_cameras:
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_3);
-  __pyx_cur_scope->__pyx_v_cameras = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_cur_scope->__pyx_v_cameras = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":25
+  /* "SeeMee/base.pyx":24
  *     cameras_pre = pygame.camera.list_cameras()
  *     cameras = []
  *     for camera in cameras_pre:             # <<<<<<<<<<<<<<
@@ -1958,44 +1987,44 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
  */
   if (unlikely(__pyx_v_cameras_pre == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 25, __pyx_L1_error)
+    __PYX_ERR(0, 24, __pyx_L1_error)
   }
-  __pyx_t_3 = __pyx_v_cameras_pre; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
+  __pyx_t_1 = __pyx_v_cameras_pre; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
   for (;;) {
-    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
+    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     #endif
-    __Pyx_XDECREF_SET(__pyx_v_camera, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_camera, __pyx_t_3);
+    __pyx_t_3 = 0;
 
-    /* "SeeMee/base.pyx":26
+    /* "SeeMee/base.pyx":25
  *     cameras = []
  *     for camera in cameras_pre:
  *         if camera not in args.ignore_cameras:             # <<<<<<<<<<<<<<
  *             cameras.append(camera)
  *     cameras.extend(args.include_cameras)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_ignore_cameras); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_v_camera, __pyx_t_1, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 26, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_ignore_cameras); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_v_camera, __pyx_t_3, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
 
-      /* "SeeMee/base.pyx":27
+      /* "SeeMee/base.pyx":26
  *     for camera in cameras_pre:
  *         if camera not in args.ignore_cameras:
  *             cameras.append(camera)             # <<<<<<<<<<<<<<
  *     cameras.extend(args.include_cameras)
  *     del cameras_pre
  */
-      __pyx_t_7 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_camera); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 27, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyList_Append(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_camera); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 26, __pyx_L1_error)
 
-      /* "SeeMee/base.pyx":26
+      /* "SeeMee/base.pyx":25
  *     cameras = []
  *     for camera in cameras_pre:
  *         if camera not in args.ignore_cameras:             # <<<<<<<<<<<<<<
@@ -2004,7 +2033,7 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
  */
     }
 
-    /* "SeeMee/base.pyx":25
+    /* "SeeMee/base.pyx":24
  *     cameras_pre = pygame.camera.list_cameras()
  *     cameras = []
  *     for camera in cameras_pre:             # <<<<<<<<<<<<<<
@@ -2012,231 +2041,1108 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
  *             cameras.append(camera)
  */
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":28
+  /* "SeeMee/base.pyx":27
  *         if camera not in args.ignore_cameras:
  *             cameras.append(camera)
  *     cameras.extend(args.include_cameras)             # <<<<<<<<<<<<<<
  *     del cameras_pre
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_include_cameras); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyList_Extend(__pyx_cur_scope->__pyx_v_cameras, __pyx_t_3); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 28, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_include_cameras); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_7 = __Pyx_PyList_Extend(__pyx_cur_scope->__pyx_v_cameras, __pyx_t_1); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":29
+  /* "SeeMee/base.pyx":28
  *             cameras.append(camera)
  *     cameras.extend(args.include_cameras)
  *     del cameras_pre             # <<<<<<<<<<<<<<
  * 
- *     print('cameras:', ', '.join(str(x) for x in cameras))
+ *     if not cameras:
  */
   __Pyx_DECREF(__pyx_v_cameras_pre);
   __pyx_v_cameras_pre = NULL;
 
-  /* "SeeMee/base.pyx":31
+  /* "SeeMee/base.pyx":30
  *     del cameras_pre
+ * 
+ *     if not cameras:             # <<<<<<<<<<<<<<
+ *         print('no cameras found')
+ *         return 1
+ */
+  __pyx_t_6 = (PyList_GET_SIZE(__pyx_cur_scope->__pyx_v_cameras) != 0);
+  __pyx_t_5 = ((!__pyx_t_6) != 0);
+  if (__pyx_t_5) {
+
+    /* "SeeMee/base.pyx":31
+ * 
+ *     if not cameras:
+ *         print('no cameras found')             # <<<<<<<<<<<<<<
+ *         return 1
+ * 
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "SeeMee/base.pyx":32
+ *     if not cameras:
+ *         print('no cameras found')
+ *         return 1             # <<<<<<<<<<<<<<
+ * 
+ *     print('cameras:', ', '.join(str(x) for x in cameras))
+ */
+    __pyx_r = 1;
+    goto __pyx_L0;
+
+    /* "SeeMee/base.pyx":30
+ *     del cameras_pre
+ * 
+ *     if not cameras:             # <<<<<<<<<<<<<<
+ *         print('no cameras found')
+ *         return 1
+ */
+  }
+
+  /* "SeeMee/base.pyx":34
+ *         return 1
  * 
  *     print('cameras:', ', '.join(str(x) for x in cameras))             # <<<<<<<<<<<<<<
  *     for (i, camera) in enumerate(cameras):
  *         print('initializing camera', camera)
  */
-  __pyx_t_3 = __pyx_pf_6SeeMee_4base_3run_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_Generator_Next(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_6SeeMee_4base_3run_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyUnicode_Join(__pyx_kp_u__3, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u__4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_kp_u_cameras);
   __Pyx_GIVEREF(__pyx_kp_u_cameras);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_cameras);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
-  __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_cameras);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":32
+  /* "SeeMee/base.pyx":35
  * 
  *     print('cameras:', ', '.join(str(x) for x in cameras))
  *     for (i, camera) in enumerate(cameras):             # <<<<<<<<<<<<<<
  *         print('initializing camera', camera)
- *         cameras[i] = pygame.camera.Camera(camera)
+ *         cameras[i] = (camera, pygame.camera.Camera(camera))
  */
   __pyx_t_8 = 0;
-  __pyx_t_3 = __pyx_cur_scope->__pyx_v_cameras; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
+  __pyx_t_1 = __pyx_cur_scope->__pyx_v_cameras; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
   for (;;) {
-    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
+    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 35, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 35, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     #endif
-    __Pyx_XDECREF_SET(__pyx_v_camera, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_camera, __pyx_t_3);
+    __pyx_t_3 = 0;
     __pyx_v_i = __pyx_t_8;
     __pyx_t_8 = (__pyx_t_8 + 1);
 
-    /* "SeeMee/base.pyx":33
+    /* "SeeMee/base.pyx":36
  *     print('cameras:', ', '.join(str(x) for x in cameras))
  *     for (i, camera) in enumerate(cameras):
  *         print('initializing camera', camera)             # <<<<<<<<<<<<<<
- *         cameras[i] = pygame.camera.Camera(camera)
- *         cameras[i].start()
+ *         cameras[i] = (camera, pygame.camera.Camera(camera))
+ *         cameras[i][1].start()
  */
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_u_initializing_camera);
     __Pyx_GIVEREF(__pyx_kp_u_initializing_camera);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_initializing_camera);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_initializing_camera);
     __Pyx_INCREF(__pyx_v_camera);
     __Pyx_GIVEREF(__pyx_v_camera);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_camera);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_camera);
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "SeeMee/base.pyx":34
+    /* "SeeMee/base.pyx":37
  *     for (i, camera) in enumerate(cameras):
  *         print('initializing camera', camera)
- *         cameras[i] = pygame.camera.Camera(camera)             # <<<<<<<<<<<<<<
- *         cameras[i].start()
+ *         cameras[i] = (camera, pygame.camera.Camera(camera))             # <<<<<<<<<<<<<<
+ *         cameras[i][1].start()
  *         print('initialized camera', camera)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_camera); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_camera); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_Camera); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_Camera); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_1);
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_3);
       if (likely(__pyx_t_9)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_9);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_1, function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_9, __pyx_v_camera) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_camera);
+    __pyx_t_2 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_9, __pyx_v_camera) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_camera);
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(__Pyx_SetItemInt(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_i, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF(__pyx_v_camera);
+    __Pyx_GIVEREF(__pyx_v_camera);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_camera);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
+    __pyx_t_2 = 0;
+    if (unlikely(__Pyx_SetItemInt(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_i, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "SeeMee/base.pyx":38
+ *         print('initializing camera', camera)
+ *         cameras[i] = (camera, pygame.camera.Camera(camera))
+ *         cameras[i][1].start()             # <<<<<<<<<<<<<<
+ *         print('initialized camera', camera)
+ *     print('camera names:', ', '.join(x[1].dev.getdisplayname() for x in cameras))
+ */
+    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_start); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_9 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_9)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+      }
+    }
+    __pyx_t_3 = (__pyx_t_9) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_9) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "SeeMee/base.pyx":39
+ *         cameras[i] = (camera, pygame.camera.Camera(camera))
+ *         cameras[i][1].start()
+ *         print('initialized camera', camera)             # <<<<<<<<<<<<<<
+ *     print('camera names:', ', '.join(x[1].dev.getdisplayname() for x in cameras))
+ * 
+ */
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF(__pyx_kp_u_initialized_camera);
+    __Pyx_GIVEREF(__pyx_kp_u_initialized_camera);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_initialized_camera);
+    __Pyx_INCREF(__pyx_v_camera);
+    __Pyx_GIVEREF(__pyx_v_camera);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_camera);
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "SeeMee/base.pyx":35
- *         print('initializing camera', camera)
- *         cameras[i] = pygame.camera.Camera(camera)
- *         cameras[i].start()             # <<<<<<<<<<<<<<
- *         print('initialized camera', camera)
- *     print('camera names:', ', '.join(x.dev.getdisplayname() for x in cameras))
- */
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_start); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_1)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_1);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_9, function);
-      }
-    }
-    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "SeeMee/base.pyx":36
- *         cameras[i] = pygame.camera.Camera(camera)
- *         cameras[i].start()
- *         print('initialized camera', camera)             # <<<<<<<<<<<<<<
- *     print('camera names:', ', '.join(x.dev.getdisplayname() for x in cameras))
- * 
- */
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_kp_u_initialized_camera);
-    __Pyx_GIVEREF(__pyx_kp_u_initialized_camera);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_initialized_camera);
-    __Pyx_INCREF(__pyx_v_camera);
-    __Pyx_GIVEREF(__pyx_v_camera);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_camera);
-    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 36, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-    /* "SeeMee/base.pyx":32
  * 
  *     print('cameras:', ', '.join(str(x) for x in cameras))
  *     for (i, camera) in enumerate(cameras):             # <<<<<<<<<<<<<<
  *         print('initializing camera', camera)
- *         cameras[i] = pygame.camera.Camera(camera)
+ *         cameras[i] = (camera, pygame.camera.Camera(camera))
  */
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":37
- *         cameras[i].start()
+  /* "SeeMee/base.pyx":40
+ *         cameras[i][1].start()
  *         print('initialized camera', camera)
- *     print('camera names:', ', '.join(x.dev.getdisplayname() for x in cameras))             # <<<<<<<<<<<<<<
+ *     print('camera names:', ', '.join(x[1].dev.getdisplayname() for x in cameras))             # <<<<<<<<<<<<<<
  * 
- *     return 0
+ *     cdef int camera_ix, camera_count
  */
-  __pyx_t_3 = __pyx_pf_6SeeMee_4base_3run_3genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_9 = __Pyx_Generator_Next(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyUnicode_Join(__pyx_kp_u__3, __pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_1 = __pyx_pf_6SeeMee_4base_3run_3genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_Generator_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u__4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_kp_u_camera_names);
   __Pyx_GIVEREF(__pyx_kp_u_camera_names);
-  PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_kp_u_camera_names);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_3);
-  __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_camera_names);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":39
- *     print('camera names:', ', '.join(x.dev.getdisplayname() for x in cameras))
+  /* "SeeMee/base.pyx":45
+ *     cdef double time_passed, time_passed_seconds, time_since_check
+ *     cdef tuple resolution
+ *     if args.resolution is not None:             # <<<<<<<<<<<<<<
+ *         resolution = tuple(args.resolution)
+ *     else:
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_resolution); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_5 = (__pyx_t_1 != Py_None);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_6 = (__pyx_t_5 != 0);
+  if (__pyx_t_6) {
+
+    /* "SeeMee/base.pyx":46
+ *     cdef tuple resolution
+ *     if args.resolution is not None:
+ *         resolution = tuple(args.resolution)             # <<<<<<<<<<<<<<
+ *     else:
+ *         resolution = cameras[0][1].get_image().get_size()
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_resolution); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_v_resolution = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
+
+    /* "SeeMee/base.pyx":45
+ *     cdef double time_passed, time_passed_seconds, time_since_check
+ *     cdef tuple resolution
+ *     if args.resolution is not None:             # <<<<<<<<<<<<<<
+ *         resolution = tuple(args.resolution)
+ *     else:
+ */
+    goto __pyx_L9;
+  }
+
+  /* "SeeMee/base.pyx":48
+ *         resolution = tuple(args.resolution)
+ *     else:
+ *         resolution = cameras[0][1].get_image().get_size()             # <<<<<<<<<<<<<<
+ *     window = pygame.display.set_mode(resolution)
+ *     camera_ix = 0
+ */
+  /*else*/ {
+    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_cur_scope->__pyx_v_cameras, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_get_image); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_9 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_9)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_9) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_get_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_v_resolution = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
+  }
+  __pyx_L9:;
+
+  /* "SeeMee/base.pyx":49
+ *     else:
+ *         resolution = cameras[0][1].get_image().get_size()
+ *     window = pygame.display.set_mode(resolution)             # <<<<<<<<<<<<<<
+ *     camera_ix = 0
+ *     camera_count = len(cameras)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_display); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_set_mode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_v_resolution) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_resolution);
+  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_window = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "SeeMee/base.pyx":50
+ *         resolution = cameras[0][1].get_image().get_size()
+ *     window = pygame.display.set_mode(resolution)
+ *     camera_ix = 0             # <<<<<<<<<<<<<<
+ *     camera_count = len(cameras)
+ *     time_since_check = 0
+ */
+  __pyx_v_camera_ix = 0;
+
+  /* "SeeMee/base.pyx":51
+ *     window = pygame.display.set_mode(resolution)
+ *     camera_ix = 0
+ *     camera_count = len(cameras)             # <<<<<<<<<<<<<<
+ *     time_since_check = 0
+ *     clock = pygame.time.Clock()
+ */
+  __pyx_t_2 = __pyx_cur_scope->__pyx_v_cameras;
+  __Pyx_INCREF(__pyx_t_2);
+  if (unlikely(__pyx_t_2 == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 51, __pyx_L1_error)
+  }
+  __pyx_t_4 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_camera_count = __pyx_t_4;
+
+  /* "SeeMee/base.pyx":52
+ *     camera_ix = 0
+ *     camera_count = len(cameras)
+ *     time_since_check = 0             # <<<<<<<<<<<<<<
+ *     clock = pygame.time.Clock()
+ *     while True:
+ */
+  __pyx_v_time_since_check = 0.0;
+
+  /* "SeeMee/base.pyx":53
+ *     camera_count = len(cameras)
+ *     time_since_check = 0
+ *     clock = pygame.time.Clock()             # <<<<<<<<<<<<<<
+ *     while True:
+ *         time_passed = clock.tick(args.framerate)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_Clock); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_clock = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "SeeMee/base.pyx":54
+ *     time_since_check = 0
+ *     clock = pygame.time.Clock()
+ *     while True:             # <<<<<<<<<<<<<<
+ *         time_passed = clock.tick(args.framerate)
+ *         time_passed_seconds = time_passed / 1000
+ */
+  while (1) {
+
+    /* "SeeMee/base.pyx":55
+ *     clock = pygame.time.Clock()
+ *     while True:
+ *         time_passed = clock.tick(args.framerate)             # <<<<<<<<<<<<<<
+ *         time_passed_seconds = time_passed / 1000
+ *         time_since_check += time_passed_seconds
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_clock, __pyx_n_s_tick); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_framerate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_9 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_9)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_9, __pyx_t_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_v_time_passed = __pyx_t_10;
+
+    /* "SeeMee/base.pyx":56
+ *     while True:
+ *         time_passed = clock.tick(args.framerate)
+ *         time_passed_seconds = time_passed / 1000             # <<<<<<<<<<<<<<
+ *         time_since_check += time_passed_seconds
+ *         for event in pygame.event.get():
+ */
+    __pyx_v_time_passed_seconds = (__pyx_v_time_passed / 1000.0);
+
+    /* "SeeMee/base.pyx":57
+ *         time_passed = clock.tick(args.framerate)
+ *         time_passed_seconds = time_passed / 1000
+ *         time_since_check += time_passed_seconds             # <<<<<<<<<<<<<<
+ *         for event in pygame.event.get():
+ *             if event.type == pygame.QUIT:
+ */
+    __pyx_v_time_since_check = (__pyx_v_time_since_check + __pyx_v_time_passed_seconds);
+
+    /* "SeeMee/base.pyx":58
+ *         time_passed_seconds = time_passed / 1000
+ *         time_since_check += time_passed_seconds
+ *         for event in pygame.event.get():             # <<<<<<<<<<<<<<
+ *             if event.type == pygame.QUIT:
+ *                 print('stopping')
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pygame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_event); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+      __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
+      __pyx_t_11 = NULL;
+    } else {
+      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_11 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 58, __pyx_L1_error)
+    }
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    for (;;) {
+      if (likely(!__pyx_t_11)) {
+        if (likely(PyList_CheckExact(__pyx_t_3))) {
+          if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        } else {
+          if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 58, __pyx_L1_error)
+          #else
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        }
+      } else {
+        __pyx_t_2 = __pyx_t_11(__pyx_t_3);
+        if (unlikely(!__pyx_t_2)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 58, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_2);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_event, __pyx_t_2);
+      __pyx_t_2 = 0;
+
+      /* "SeeMee/base.pyx":59
+ *         time_since_check += time_passed_seconds
+ *         for event in pygame.event.get():
+ *             if event.type == pygame.QUIT:             # <<<<<<<<<<<<<<
+ *                 print('stopping')
+ *                 for camera in cameras:
+ */
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_event, __pyx_n_s_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_QUIT); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_9, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (__pyx_t_6) {
+
+        /* "SeeMee/base.pyx":60
+ *         for event in pygame.event.get():
+ *             if event.type == pygame.QUIT:
+ *                 print('stopping')             # <<<<<<<<<<<<<<
+ *                 for camera in cameras:
+ *                     print('deinitializing camera', camera[0])
+ */
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "SeeMee/base.pyx":61
+ *             if event.type == pygame.QUIT:
+ *                 print('stopping')
+ *                 for camera in cameras:             # <<<<<<<<<<<<<<
+ *                     print('deinitializing camera', camera[0])
+ *                     camera[1].stop()
+ */
+        __pyx_t_1 = __pyx_cur_scope->__pyx_v_cameras; __Pyx_INCREF(__pyx_t_1); __pyx_t_12 = 0;
+        for (;;) {
+          if (__pyx_t_12 >= PyList_GET_SIZE(__pyx_t_1)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_9 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_12); __Pyx_INCREF(__pyx_t_9); __pyx_t_12++; if (unlikely(0 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
+          #else
+          __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 61, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          #endif
+          __Pyx_XDECREF_SET(__pyx_v_camera, __pyx_t_9);
+          __pyx_t_9 = 0;
+
+          /* "SeeMee/base.pyx":62
+ *                 print('stopping')
+ *                 for camera in cameras:
+ *                     print('deinitializing camera', camera[0])             # <<<<<<<<<<<<<<
+ *                     camera[1].stop()
+ *                     print('deinitialized camera', camera[0])
+ */
+          __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_camera, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_INCREF(__pyx_kp_u_deinitializing_camera);
+          __Pyx_GIVEREF(__pyx_kp_u_deinitializing_camera);
+          PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_deinitializing_camera);
+          __Pyx_GIVEREF(__pyx_t_9);
+          PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_9);
+          __pyx_t_9 = 0;
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+          /* "SeeMee/base.pyx":63
+ *                 for camera in cameras:
+ *                     print('deinitializing camera', camera[0])
+ *                     camera[1].stop()             # <<<<<<<<<<<<<<
+ *                     print('deinitialized camera', camera[0])
+ *                 print('deinitializing pygame')
+ */
+          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_camera, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stop); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 63, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_2 = NULL;
+          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
+            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_13);
+            if (likely(__pyx_t_2)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+              __Pyx_INCREF(__pyx_t_2);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_13, function);
+            }
+          }
+          __pyx_t_9 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_13);
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+          /* "SeeMee/base.pyx":64
+ *                     print('deinitializing camera', camera[0])
+ *                     camera[1].stop()
+ *                     print('deinitialized camera', camera[0])             # <<<<<<<<<<<<<<
+ *                 print('deinitializing pygame')
+ *                 pygame.quit()
+ */
+          __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_camera, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 64, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 64, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_INCREF(__pyx_kp_u_deinitialized_camera);
+          __Pyx_GIVEREF(__pyx_kp_u_deinitialized_camera);
+          PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_kp_u_deinitialized_camera);
+          __Pyx_GIVEREF(__pyx_t_9);
+          PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_9);
+          __pyx_t_9 = 0;
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_13, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 64, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+          /* "SeeMee/base.pyx":61
+ *             if event.type == pygame.QUIT:
+ *                 print('stopping')
+ *                 for camera in cameras:             # <<<<<<<<<<<<<<
+ *                     print('deinitializing camera', camera[0])
+ *                     camera[1].stop()
+ */
+        }
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "SeeMee/base.pyx":65
+ *                     camera[1].stop()
+ *                     print('deinitialized camera', camera[0])
+ *                 print('deinitializing pygame')             # <<<<<<<<<<<<<<
+ *                 pygame.quit()
+ *                 print('deinitialized pygame')
+ */
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "SeeMee/base.pyx":66
+ *                     print('deinitialized camera', camera[0])
+ *                 print('deinitializing pygame')
+ *                 pygame.quit()             # <<<<<<<<<<<<<<
+ *                 print('deinitialized pygame')
+ *                 return 0
+ */
+        __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_pygame); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 66, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_quit); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 66, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_13);
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        __pyx_t_9 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_13))) {
+          __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_13);
+          if (likely(__pyx_t_9)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+            __Pyx_INCREF(__pyx_t_9);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_13, function);
+          }
+        }
+        __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_9) : __Pyx_PyObject_CallNoArg(__pyx_t_13);
+        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "SeeMee/base.pyx":67
+ *                 print('deinitializing pygame')
+ *                 pygame.quit()
+ *                 print('deinitialized pygame')             # <<<<<<<<<<<<<<
+ *                 return 0
+ *         if time_since_check >= args.check_time:
+ */
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+        /* "SeeMee/base.pyx":68
+ *                 pygame.quit()
+ *                 print('deinitialized pygame')
+ *                 return 0             # <<<<<<<<<<<<<<
+ *         if time_since_check >= args.check_time:
+ *             time_since_check = 0
+ */
+        __pyx_r = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        goto __pyx_L0;
+
+        /* "SeeMee/base.pyx":59
+ *         time_since_check += time_passed_seconds
+ *         for event in pygame.event.get():
+ *             if event.type == pygame.QUIT:             # <<<<<<<<<<<<<<
+ *                 print('stopping')
+ *                 for camera in cameras:
+ */
+      }
+
+      /* "SeeMee/base.pyx":58
+ *         time_passed_seconds = time_passed / 1000
+ *         time_since_check += time_passed_seconds
+ *         for event in pygame.event.get():             # <<<<<<<<<<<<<<
+ *             if event.type == pygame.QUIT:
+ *                 print('stopping')
+ */
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "SeeMee/base.pyx":69
+ *                 print('deinitialized pygame')
+ *                 return 0
+ *         if time_since_check >= args.check_time:             # <<<<<<<<<<<<<<
+ *             time_since_check = 0
+ *             camera_ix = (camera_ix + 1) % camera_count
+ */
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_time_since_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_args, __pyx_n_s_check_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_13 = PyObject_RichCompare(__pyx_t_3, __pyx_t_1, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    if (__pyx_t_6) {
+
+      /* "SeeMee/base.pyx":70
+ *                 return 0
+ *         if time_since_check >= args.check_time:
+ *             time_since_check = 0             # <<<<<<<<<<<<<<
+ *             camera_ix = (camera_ix + 1) % camera_count
+ *             print('switched to camera', cameras[camera_ix][0], '(%s)' % cameras[camera_ix][1].dev.getdisplayname())
+ */
+      __pyx_v_time_since_check = 0.0;
+
+      /* "SeeMee/base.pyx":71
+ *         if time_since_check >= args.check_time:
+ *             time_since_check = 0
+ *             camera_ix = (camera_ix + 1) % camera_count             # <<<<<<<<<<<<<<
+ *             print('switched to camera', cameras[camera_ix][0], '(%s)' % cameras[camera_ix][1].dev.getdisplayname())
+ *         frame = pygame.transform.scale(cameras[camera_ix][1].get_image(), resolution)
+ */
+      __pyx_t_14 = (__pyx_v_camera_ix + 1);
+      if (unlikely(__pyx_v_camera_count == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
+        __PYX_ERR(0, 71, __pyx_L1_error)
+      }
+      __pyx_v_camera_ix = __Pyx_mod_long(__pyx_t_14, __pyx_v_camera_count);
+
+      /* "SeeMee/base.pyx":72
+ *             time_since_check = 0
+ *             camera_ix = (camera_ix + 1) % camera_count
+ *             print('switched to camera', cameras[camera_ix][0], '(%s)' % cameras[camera_ix][1].dev.getdisplayname())             # <<<<<<<<<<<<<<
+ *         frame = pygame.transform.scale(cameras[camera_ix][1].get_image(), resolution)
+ *         window.blit(frame, (0, 0))
+ */
+      __pyx_t_13 = __Pyx_GetItemInt_List(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_camera_ix, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_13, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_camera_ix, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_dev); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_getdisplayname); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_9);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_9, function);
+        }
+      }
+      __pyx_t_13 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __pyx_t_9 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_s, __pyx_t_13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __pyx_t_13 = PyTuple_New(3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_INCREF(__pyx_kp_u_switched_to_camera);
+      __Pyx_GIVEREF(__pyx_kp_u_switched_to_camera);
+      PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_kp_u_switched_to_camera);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_9);
+      PyTuple_SET_ITEM(__pyx_t_13, 2, __pyx_t_9);
+      __pyx_t_1 = 0;
+      __pyx_t_9 = 0;
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_13, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 72, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+      /* "SeeMee/base.pyx":69
+ *                 print('deinitialized pygame')
+ *                 return 0
+ *         if time_since_check >= args.check_time:             # <<<<<<<<<<<<<<
+ *             time_since_check = 0
+ *             camera_ix = (camera_ix + 1) % camera_count
+ */
+    }
+
+    /* "SeeMee/base.pyx":73
+ *             camera_ix = (camera_ix + 1) % camera_count
+ *             print('switched to camera', cameras[camera_ix][0], '(%s)' % cameras[camera_ix][1].dev.getdisplayname())
+ *         frame = pygame.transform.scale(cameras[camera_ix][1].get_image(), resolution)             # <<<<<<<<<<<<<<
+ *         window.blit(frame, (0, 0))
+ *         pygame.display.update()
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_pygame); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_transform); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_scale); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_cur_scope->__pyx_v_cameras, __pyx_v_camera_ix, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_3, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_get_image); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_2)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_2);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
+      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_13);
+      if (likely(__pyx_t_3)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+        __Pyx_INCREF(__pyx_t_3);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_13, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_13)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_1, __pyx_v_resolution};
+      __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_13)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_1, __pyx_v_resolution};
+      __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (__pyx_t_3) {
+        __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_8, __pyx_t_1);
+      __Pyx_INCREF(__pyx_v_resolution);
+      __Pyx_GIVEREF(__pyx_v_resolution);
+      PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_8, __pyx_v_resolution);
+      __pyx_t_1 = 0;
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_2, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_frame, __pyx_t_9);
+    __pyx_t_9 = 0;
+
+    /* "SeeMee/base.pyx":74
+ *             print('switched to camera', cameras[camera_ix][0], '(%s)' % cameras[camera_ix][1].dev.getdisplayname())
+ *         frame = pygame.transform.scale(cameras[camera_ix][1].get_image(), resolution)
+ *         window.blit(frame, (0, 0))             # <<<<<<<<<<<<<<
+ *         pygame.display.update()
  * 
- *     return 0             # <<<<<<<<<<<<<<
+ */
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_window, __pyx_n_s_blit); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_2 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
+      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_13);
+      if (likely(__pyx_t_2)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+        __Pyx_INCREF(__pyx_t_2);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_13, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_13)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_frame, __pyx_tuple__8};
+      __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_9);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_13)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_frame, __pyx_tuple__8};
+      __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_9);
+    } else
+    #endif
+    {
+      __pyx_t_1 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (__pyx_t_2) {
+        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      }
+      __Pyx_INCREF(__pyx_v_frame);
+      __Pyx_GIVEREF(__pyx_v_frame);
+      PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_8, __pyx_v_frame);
+      __Pyx_INCREF(__pyx_tuple__8);
+      __Pyx_GIVEREF(__pyx_tuple__8);
+      PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_8, __pyx_tuple__8);
+      __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_1, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 74, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "SeeMee/base.pyx":75
+ *         frame = pygame.transform.scale(cameras[camera_ix][1].get_image(), resolution)
+ *         window.blit(frame, (0, 0))
+ *         pygame.display.update()             # <<<<<<<<<<<<<<
+ * 
+ *     return 1
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_pygame); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_display); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_update); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_13);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_13, function);
+      }
+    }
+    __pyx_t_9 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_13);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  }
+
+  /* "SeeMee/base.pyx":77
+ *         pygame.display.update()
+ * 
+ *     return 1             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_r = 0;
+  __pyx_r = 1;
   goto __pyx_L0;
 
-  /* "SeeMee/base.pyx":14
+  /* "SeeMee/base.pyx":13
  * 
  * 
  * cdef int run(args):             # <<<<<<<<<<<<<<
@@ -2250,18 +3156,24 @@ static int __pyx_f_6SeeMee_4base_run(PyObject *__pyx_v_args) {
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_13);
   __Pyx_WriteUnraisable("SeeMee.base.run", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_cameras_pre);
   __Pyx_XDECREF(__pyx_v_camera);
+  __Pyx_XDECREF(__pyx_v_resolution);
+  __Pyx_XDECREF(__pyx_v_window);
+  __Pyx_XDECREF(__pyx_v_clock);
+  __Pyx_XDECREF(__pyx_v_event);
+  __Pyx_XDECREF(__pyx_v_frame);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "SeeMee/base.pyx":47
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])
+/* "SeeMee/base.pyx":80
+ * 
  * 
  * cdef int cmain(int argc, list argv):             # <<<<<<<<<<<<<<
  *     args = argument_parser.parse_args()
@@ -2277,16 +3189,16 @@ static int __pyx_f_6SeeMee_4base_cmain(CYTHON_UNUSED int __pyx_v_argc, CYTHON_UN
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("cmain", 0);
 
-  /* "SeeMee/base.pyx":48
+  /* "SeeMee/base.pyx":81
  * 
  * cdef int cmain(int argc, list argv):
  *     args = argument_parser.parse_args()             # <<<<<<<<<<<<<<
  *     return run(args)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_argument_parser); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_argument_parser); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_parse_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_parse_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -2301,24 +3213,24 @@ static int __pyx_f_6SeeMee_4base_cmain(CYTHON_UNUSED int __pyx_v_argc, CYTHON_UN
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_args = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":49
+  /* "SeeMee/base.pyx":82
  * cdef int cmain(int argc, list argv):
  *     args = argument_parser.parse_args()
  *     return run(args)             # <<<<<<<<<<<<<<
  * 
- * def main(list argv):
+ * def main(list argv=sys.argv):
  */
   __pyx_r = __pyx_f_6SeeMee_4base_run(__pyx_v_args);
   goto __pyx_L0;
 
-  /* "SeeMee/base.pyx":47
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])
+  /* "SeeMee/base.pyx":80
+ * 
  * 
  * cdef int cmain(int argc, list argv):             # <<<<<<<<<<<<<<
  *     args = argument_parser.parse_args()
@@ -2338,23 +3250,66 @@ static int __pyx_f_6SeeMee_4base_cmain(CYTHON_UNUSED int __pyx_v_argc, CYTHON_UN
   return __pyx_r;
 }
 
-/* "SeeMee/base.pyx":51
+/* "SeeMee/base.pyx":84
  *     return run(args)
  * 
- * def main(list argv):             # <<<<<<<<<<<<<<
+ * def main(list argv=sys.argv):             # <<<<<<<<<<<<<<
  *     return cmain(len(argv), argv)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6SeeMee_4base_1main(PyObject *__pyx_self, PyObject *__pyx_v_argv); /*proto*/
-static PyMethodDef __pyx_mdef_6SeeMee_4base_1main = {"main", (PyCFunction)__pyx_pw_6SeeMee_4base_1main, METH_O, 0};
-static PyObject *__pyx_pw_6SeeMee_4base_1main(PyObject *__pyx_self, PyObject *__pyx_v_argv) {
+static PyObject *__pyx_pw_6SeeMee_4base_1main(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6SeeMee_4base_1main = {"main", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6SeeMee_4base_1main, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6SeeMee_4base_1main(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_argv = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("main (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_argv), (&PyList_Type), 1, "argv", 1))) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6SeeMee_4base_main(__pyx_self, ((PyObject*)__pyx_v_argv));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_argv,0};
+    PyObject* values[1] = {0};
+    values[0] = __pyx_k__9;
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_argv);
+          if (value) { values[0] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "main") < 0)) __PYX_ERR(0, 84, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_argv = ((PyObject*)values[0]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("main", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 84, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("SeeMee.base.main", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_argv), (&PyList_Type), 1, "argv", 1))) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6SeeMee_4base_main(__pyx_self, __pyx_v_argv);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2372,9 +3327,9 @@ static PyObject *__pyx_pf_6SeeMee_4base_main(CYTHON_UNUSED PyObject *__pyx_self,
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("main", 0);
 
-  /* "SeeMee/base.pyx":52
+  /* "SeeMee/base.pyx":85
  * 
- * def main(list argv):
+ * def main(list argv=sys.argv):
  *     return cmain(len(argv), argv)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -2382,19 +3337,19 @@ static PyObject *__pyx_pf_6SeeMee_4base_main(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_argv == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 52, __pyx_L1_error)
+    __PYX_ERR(0, 85, __pyx_L1_error)
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_argv); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 52, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_f_6SeeMee_4base_cmain(__pyx_t_1, __pyx_v_argv)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_argv); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_f_6SeeMee_4base_cmain(__pyx_t_1, __pyx_v_argv)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "SeeMee/base.pyx":51
+  /* "SeeMee/base.pyx":84
  *     return run(args)
  * 
- * def main(list argv):             # <<<<<<<<<<<<<<
+ * def main(list argv=sys.argv):             # <<<<<<<<<<<<<<
  *     return cmain(len(argv), argv)
  * 
  */
@@ -2791,46 +3746,42 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_ArgumentParser, __pyx_k_ArgumentParser, sizeof(__pyx_k_ArgumentParser), 0, 0, 1, 1},
   {&__pyx_n_s_Camera, __pyx_k_Camera, sizeof(__pyx_k_Camera), 0, 0, 1, 1},
-  {&__pyx_n_u_ID, __pyx_k_ID, sizeof(__pyx_k_ID), 0, 1, 0, 1},
-  {&__pyx_kp_u_SeeMee, __pyx_k_SeeMee, sizeof(__pyx_k_SeeMee), 0, 1, 0, 0},
+  {&__pyx_n_s_Clock, __pyx_k_Clock, sizeof(__pyx_k_Clock), 0, 0, 1, 1},
+  {&__pyx_n_s_QUIT, __pyx_k_QUIT, sizeof(__pyx_k_QUIT), 0, 0, 1, 1},
   {&__pyx_n_s_SeeMee_base, __pyx_k_SeeMee_base, sizeof(__pyx_k_SeeMee_base), 0, 0, 1, 1},
   {&__pyx_kp_s_SeeMee_base_pyx, __pyx_k_SeeMee_base_pyx, sizeof(__pyx_k_SeeMee_base_pyx), 0, 0, 1, 0},
-  {&__pyx_kp_u_V, __pyx_k_V, sizeof(__pyx_k_V), 0, 1, 0, 0},
-  {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
-  {&__pyx_n_s_action, __pyx_k_action, sizeof(__pyx_k_action), 0, 0, 1, 1},
-  {&__pyx_n_s_add_argument, __pyx_k_add_argument, sizeof(__pyx_k_add_argument), 0, 0, 1, 1},
+  {&__pyx_kp_u__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 1, 0, 0},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
-  {&__pyx_n_u_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 1, 0, 1},
-  {&__pyx_n_s_argparse, __pyx_k_argparse, sizeof(__pyx_k_argparse), 0, 0, 1, 1},
-  {&__pyx_kp_u_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 1, 0, 0},
-  {&__pyx_n_s_args_2, __pyx_k_args_2, sizeof(__pyx_k_args_2), 0, 0, 1, 1},
+  {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_argument_parser, __pyx_k_argument_parser, sizeof(__pyx_k_argument_parser), 0, 0, 1, 1},
-  {&__pyx_n_u_argument_parser, __pyx_k_argument_parser, sizeof(__pyx_k_argument_parser), 0, 1, 0, 1},
+  {&__pyx_n_s_arguments, __pyx_k_arguments, sizeof(__pyx_k_arguments), 0, 0, 1, 1},
   {&__pyx_n_s_argv, __pyx_k_argv, sizeof(__pyx_k_argv), 0, 0, 1, 1},
-  {&__pyx_kp_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 0},
+  {&__pyx_n_s_blit, __pyx_k_blit, sizeof(__pyx_k_blit), 0, 0, 1, 1},
   {&__pyx_n_s_camera, __pyx_k_camera, sizeof(__pyx_k_camera), 0, 0, 1, 1},
   {&__pyx_kp_u_camera_names, __pyx_k_camera_names, sizeof(__pyx_k_camera_names), 0, 1, 0, 0},
   {&__pyx_kp_u_cameras, __pyx_k_cameras, sizeof(__pyx_k_cameras), 0, 1, 0, 0},
+  {&__pyx_n_s_check_time, __pyx_k_check_time, sizeof(__pyx_k_check_time), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
-  {&__pyx_n_s_default, __pyx_k_default, sizeof(__pyx_k_default), 0, 0, 1, 1},
-  {&__pyx_n_s_dest, __pyx_k_dest, sizeof(__pyx_k_dest), 0, 0, 1, 1},
+  {&__pyx_kp_u_deinitialized_camera, __pyx_k_deinitialized_camera, sizeof(__pyx_k_deinitialized_camera), 0, 1, 0, 0},
+  {&__pyx_kp_u_deinitialized_pygame, __pyx_k_deinitialized_pygame, sizeof(__pyx_k_deinitialized_pygame), 0, 1, 0, 0},
+  {&__pyx_kp_u_deinitializing_camera, __pyx_k_deinitializing_camera, sizeof(__pyx_k_deinitializing_camera), 0, 1, 0, 0},
+  {&__pyx_kp_u_deinitializing_pygame, __pyx_k_deinitializing_pygame, sizeof(__pyx_k_deinitializing_pygame), 0, 1, 0, 0},
   {&__pyx_n_s_dev, __pyx_k_dev, sizeof(__pyx_k_dev), 0, 0, 1, 1},
   {&__pyx_n_s_devnull, __pyx_k_devnull, sizeof(__pyx_k_devnull), 0, 0, 1, 1},
+  {&__pyx_n_s_display, __pyx_k_display, sizeof(__pyx_k_display), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
+  {&__pyx_n_s_event, __pyx_k_event, sizeof(__pyx_k_event), 0, 0, 1, 1},
+  {&__pyx_n_s_framerate, __pyx_k_framerate, sizeof(__pyx_k_framerate), 0, 0, 1, 1},
   {&__pyx_n_s_genexpr, __pyx_k_genexpr, sizeof(__pyx_k_genexpr), 0, 0, 1, 1},
+  {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
+  {&__pyx_n_s_get_image, __pyx_k_get_image, sizeof(__pyx_k_get_image), 0, 0, 1, 1},
+  {&__pyx_n_s_get_size, __pyx_k_get_size, sizeof(__pyx_k_get_size), 0, 0, 1, 1},
   {&__pyx_n_s_getdisplayname, __pyx_k_getdisplayname, sizeof(__pyx_k_getdisplayname), 0, 0, 1, 1},
-  {&__pyx_kp_u_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 1, 0, 0},
-  {&__pyx_kp_u_ignore_camera, __pyx_k_ignore_camera, sizeof(__pyx_k_ignore_camera), 0, 1, 0, 0},
   {&__pyx_n_s_ignore_cameras, __pyx_k_ignore_cameras, sizeof(__pyx_k_ignore_cameras), 0, 0, 1, 1},
-  {&__pyx_n_u_ignore_cameras, __pyx_k_ignore_cameras, sizeof(__pyx_k_ignore_cameras), 0, 1, 0, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_kp_u_include_camera, __pyx_k_include_camera, sizeof(__pyx_k_include_camera), 0, 1, 0, 0},
   {&__pyx_n_s_include_cameras, __pyx_k_include_cameras, sizeof(__pyx_k_include_cameras), 0, 0, 1, 1},
-  {&__pyx_n_u_include_cameras, __pyx_k_include_cameras, sizeof(__pyx_k_include_cameras), 0, 1, 0, 1},
-  {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_kp_u_initialized_camera, __pyx_k_initialized_camera, sizeof(__pyx_k_initialized_camera), 0, 1, 0, 0},
   {&__pyx_kp_u_initializing_camera, __pyx_k_initializing_camera, sizeof(__pyx_k_initializing_camera), 0, 1, 0, 0},
@@ -2839,8 +3790,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_main_2, __pyx_k_main_2, sizeof(__pyx_k_main_2), 0, 0, 1, 1},
   {&__pyx_n_u_main_2, __pyx_k_main_2, sizeof(__pyx_k_main_2), 0, 1, 0, 1},
-  {&__pyx_n_s_metavar, __pyx_k_metavar, sizeof(__pyx_k_metavar), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_kp_u_no_cameras_found, __pyx_k_no_cameras_found, sizeof(__pyx_k_no_cameras_found), 0, 1, 0, 0},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_parse_args, __pyx_k_parse_args, sizeof(__pyx_k_parse_args), 0, 0, 1, 1},
@@ -2848,26 +3799,34 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pygame, __pyx_k_pygame, sizeof(__pyx_k_pygame), 0, 0, 1, 1},
   {&__pyx_n_s_pygame_camera, __pyx_k_pygame_camera, sizeof(__pyx_k_pygame_camera), 0, 0, 1, 1},
   {&__pyx_kp_u_pygame_initialized, __pyx_k_pygame_initialized, sizeof(__pyx_k_pygame_initialized), 0, 1, 0, 0},
+  {&__pyx_n_s_quit, __pyx_k_quit, sizeof(__pyx_k_quit), 0, 0, 1, 1},
+  {&__pyx_n_s_resolution, __pyx_k_resolution, sizeof(__pyx_k_resolution), 0, 0, 1, 1},
   {&__pyx_n_s_run_locals_genexpr, __pyx_k_run_locals_genexpr, sizeof(__pyx_k_run_locals_genexpr), 0, 0, 1, 1},
+  {&__pyx_kp_u_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 1, 0, 0},
+  {&__pyx_n_s_scale, __pyx_k_scale, sizeof(__pyx_k_scale), 0, 0, 1, 1},
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
+  {&__pyx_n_s_set_mode, __pyx_k_set_mode, sizeof(__pyx_k_set_mode), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_stdout, __pyx_k_stdout, sizeof(__pyx_k_stdout), 0, 0, 1, 1},
   {&__pyx_n_s_stdout_2, __pyx_k_stdout_2, sizeof(__pyx_k_stdout_2), 0, 0, 1, 1},
+  {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
+  {&__pyx_n_u_stopping, __pyx_k_stopping, sizeof(__pyx_k_stopping), 0, 1, 0, 1},
+  {&__pyx_kp_u_switched_to_camera, __pyx_k_switched_to_camera, sizeof(__pyx_k_switched_to_camera), 0, 1, 0, 0},
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
+  {&__pyx_n_s_tick, __pyx_k_tick, sizeof(__pyx_k_tick), 0, 0, 1, 1},
+  {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
+  {&__pyx_n_s_transform, __pyx_k_transform, sizeof(__pyx_k_transform), 0, 0, 1, 1},
   {&__pyx_n_s_type, __pyx_k_type, sizeof(__pyx_k_type), 0, 0, 1, 1},
-  {&__pyx_n_s_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 0, 1, 1},
-  {&__pyx_kp_u_version_2, __pyx_k_version_2, sizeof(__pyx_k_version_2), 0, 1, 0, 0},
-  {&__pyx_n_s_version_3, __pyx_k_version_3, sizeof(__pyx_k_version_3), 0, 0, 1, 1},
-  {&__pyx_n_u_version_3, __pyx_k_version_3, sizeof(__pyx_k_version_3), 0, 1, 0, 1},
+  {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_u_w, __pyx_k_w, sizeof(__pyx_k_w), 0, 1, 0, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 8, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 16, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 35, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2877,72 +3836,94 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "SeeMee/base.pyx":16
+  /* "SeeMee/base.pyx":15
  * cdef int run(args):
  *     cdef int i
  *     print('initializing pygame')             # <<<<<<<<<<<<<<
  *     pygame.init()
  *     pygame.camera.init()
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_initializing_pygame); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_initializing_pygame); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "SeeMee/base.pyx":19
+  /* "SeeMee/base.pyx":18
  *     pygame.init()
  *     pygame.camera.init()
  *     print('pygame initialized')             # <<<<<<<<<<<<<<
- *     print('args:', args)
+ *     # print('args:', args)
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_pygame_initialized); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_pygame_initialized); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "SeeMee/base.pyx":43
+  /* "SeeMee/base.pyx":31
  * 
- * argument_parser = argparse.ArgumentParser()
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)             # <<<<<<<<<<<<<<
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])
+ *     if not cameras:
+ *         print('no cameras found')             # <<<<<<<<<<<<<<
+ *         return 1
+ * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_kp_u_V, __pyx_kp_u_version_2); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_no_cameras_found); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "SeeMee/base.pyx":44
- * argument_parser = argparse.ArgumentParser()
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])             # <<<<<<<<<<<<<<
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])
- * 
+  /* "SeeMee/base.pyx":60
+ *         for event in pygame.event.get():
+ *             if event.type == pygame.QUIT:
+ *                 print('stopping')             # <<<<<<<<<<<<<<
+ *                 for camera in cameras:
+ *                     print('deinitializing camera', camera[0])
  */
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_kp_u_i, __pyx_kp_u_ignore_camera); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_u_stopping); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "SeeMee/base.pyx":45
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])             # <<<<<<<<<<<<<<
- * 
- * cdef int cmain(int argc, list argv):
+  /* "SeeMee/base.pyx":65
+ *                     camera[1].stop()
+ *                     print('deinitialized camera', camera[0])
+ *                 print('deinitializing pygame')             # <<<<<<<<<<<<<<
+ *                 pygame.quit()
+ *                 print('deinitialized pygame')
  */
-  __pyx_tuple__6 = PyTuple_Pack(2, __pyx_kp_u_c, __pyx_kp_u_include_camera); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_deinitializing_pygame); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "SeeMee/base.pyx":51
+  /* "SeeMee/base.pyx":67
+ *                 print('deinitializing pygame')
+ *                 pygame.quit()
+ *                 print('deinitialized pygame')             # <<<<<<<<<<<<<<
+ *                 return 0
+ *         if time_since_check >= args.check_time:
+ */
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_deinitialized_pygame); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+
+  /* "SeeMee/base.pyx":74
+ *             print('switched to camera', cameras[camera_ix][0], '(%s)' % cameras[camera_ix][1].dev.getdisplayname())
+ *         frame = pygame.transform.scale(cameras[camera_ix][1].get_image(), resolution)
+ *         window.blit(frame, (0, 0))             # <<<<<<<<<<<<<<
+ *         pygame.display.update()
+ * 
+ */
+  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+
+  /* "SeeMee/base.pyx":84
  *     return run(args)
  * 
- * def main(list argv):             # <<<<<<<<<<<<<<
+ * def main(list argv=sys.argv):             # <<<<<<<<<<<<<<
  *     return cmain(len(argv), argv)
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_argv); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_SeeMee_base_pyx, __pyx_n_s_main_2, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_s_argv); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_SeeMee_base_pyx, __pyx_n_s_main_2, 84, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2952,6 +3933,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2993,7 +3975,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run.tp_print = 0;
   #endif
@@ -3001,7 +3983,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run = &__pyx_type_6SeeMee_4base___pyx_scope_struct____pyx_f_6SeeMee_4base_run;
-  if (PyType_Ready(&__pyx_type_6SeeMee_4base___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6SeeMee_4base___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6SeeMee_4base___pyx_scope_struct_1_genexpr.tp_print = 0;
   #endif
@@ -3009,7 +3991,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_6SeeMee_4base___pyx_scope_struct_1_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_6SeeMee_4base___pyx_scope_struct_1_genexpr = &__pyx_type_6SeeMee_4base___pyx_scope_struct_1_genexpr;
-  if (PyType_Ready(&__pyx_type_6SeeMee_4base___pyx_scope_struct_2_genexpr) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6SeeMee_4base___pyx_scope_struct_2_genexpr) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6SeeMee_4base___pyx_scope_struct_2_genexpr.tp_print = 0;
   #endif
@@ -3142,8 +4124,6 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_base(PyObject *__pyx_pyinit_module
 {
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannyDeclarations
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
@@ -3252,8 +4232,8 @@ if (!__Pyx_RefNanny) {
  * from __future__ import print_function
  * 
  * import sys, os             # <<<<<<<<<<<<<<
- * import argparse
  * 
+ * from .arguments import argument_parser
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3264,52 +4244,40 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_os, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":4
- * 
+  /* "SeeMee/base.pyx":5
  * import sys, os
- * import argparse             # <<<<<<<<<<<<<<
  * 
- * from .info import __version__
- */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_argparse, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_argparse, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "SeeMee/base.pyx":6
- * import argparse
- * 
- * from .info import __version__             # <<<<<<<<<<<<<<
+ * from .arguments import argument_parser             # <<<<<<<<<<<<<<
  * 
  * sys.stdout = open(os.devnull, 'w')
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_version);
-  __Pyx_GIVEREF(__pyx_n_s_version);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_version);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_info, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_argument_parser);
+  __Pyx_GIVEREF(__pyx_n_s_argument_parser);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_argument_parser);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_arguments, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_version); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_argument_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_argument_parser, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "SeeMee/base.pyx":8
- * from .info import __version__
+  /* "SeeMee/base.pyx":7
+ * from .arguments import argument_parser
  * 
  * sys.stdout = open(os.devnull, 'w')             # <<<<<<<<<<<<<<
  * import pygame
  * import pygame.camera
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_devnull); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_devnull); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -3317,196 +4285,100 @@ if (!__Pyx_RefNanny) {
   __Pyx_GIVEREF(__pyx_n_u_w);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_w);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_stdout, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_stdout, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "SeeMee/base.pyx":9
+  /* "SeeMee/base.pyx":8
  * 
  * sys.stdout = open(os.devnull, 'w')
  * import pygame             # <<<<<<<<<<<<<<
  * import pygame.camera
  * sys.stdout = sys.__stdout__
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pygame, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pygame, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_2) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "SeeMee/base.pyx":10
+  /* "SeeMee/base.pyx":9
  * sys.stdout = open(os.devnull, 'w')
  * import pygame
  * import pygame.camera             # <<<<<<<<<<<<<<
  * sys.stdout = sys.__stdout__
  * 
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pygame_camera, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pygame_camera, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pygame, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "SeeMee/base.pyx":11
+  /* "SeeMee/base.pyx":10
  * import pygame
  * import pygame.camera
  * sys.stdout = sys.__stdout__             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_stdout, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_stdout, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "SeeMee/base.pyx":42
- * 
- * 
- * argument_parser = argparse.ArgumentParser()             # <<<<<<<<<<<<<<
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_argparse); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ArgumentParser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_argument_parser, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "SeeMee/base.pyx":43
- * 
- * argument_parser = argparse.ArgumentParser()
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)             # <<<<<<<<<<<<<<
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_argument_parser); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_action, __pyx_n_u_version_3) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_version); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Add(__pyx_kp_u_SeeMee, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_version_3, __pyx_t_4) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "SeeMee/base.pyx":44
- * argument_parser = argparse.ArgumentParser()
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])             # <<<<<<<<<<<<<<
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])
- * 
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_argument_parser); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dest, __pyx_n_u_ignore_cameras) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_metavar, __pyx_n_u_ID) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_type, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_action, __pyx_n_u_append) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_default, __pyx_t_1) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__5, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "SeeMee/base.pyx":45
- * argument_parser.add_argument('-V', '--version', action='version', version='SeeMee '+__version__)
- * argument_parser.add_argument('-i', '--ignore-camera', dest='ignore_cameras', metavar='ID', type=int, action='append', default=[])
- * argument_parser.add_argument('-c', '--include-camera', dest='include_cameras', metavar='ID', type=int, action='append', default=[])             # <<<<<<<<<<<<<<
- * 
- * cdef int cmain(int argc, list argv):
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_argument_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dest, __pyx_n_u_include_cameras) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_metavar, __pyx_n_u_ID) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_type, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_action, __pyx_n_u_append) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_default, __pyx_t_2) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__6, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "SeeMee/base.pyx":51
+  /* "SeeMee/base.pyx":84
  *     return run(args)
  * 
- * def main(list argv):             # <<<<<<<<<<<<<<
+ * def main(list argv=sys.argv):             # <<<<<<<<<<<<<<
  *     return cmain(len(argv), argv)
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6SeeMee_4base_1main, NULL, __pyx_n_s_SeeMee_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_main_2, __pyx_t_2) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_argv); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_k__9 = ((PyObject*)__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6SeeMee_4base_1main, NULL, __pyx_n_s_SeeMee_base); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_main_2, __pyx_t_1) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "SeeMee/base.pyx":55
+  /* "SeeMee/base.pyx":88
  * 
  * 
- * __all__ = ['main', 'argument_parser']             # <<<<<<<<<<<<<<
+ * __all__ = ['main']             # <<<<<<<<<<<<<<
  */
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_u_main_2);
   __Pyx_GIVEREF(__pyx_n_u_main_2);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_u_main_2);
-  __Pyx_INCREF(__pyx_n_u_argument_parser);
-  __Pyx_GIVEREF(__pyx_n_u_argument_parser);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_argument_parser);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_2) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_u_main_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_1) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "SeeMee/base.pyx":1
  * from __future__ import print_function             # <<<<<<<<<<<<<<
  * 
  * import sys, os
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -3514,8 +4386,6 @@ if (!__Pyx_RefNanny) {
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init SeeMee.base", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -3808,6 +4678,93 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 }
 #endif
 
+/* GetItemInt */
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
+
 /* PyObjectCallNoArg */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
@@ -3969,91 +4926,11 @@ static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObje
     return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
 }
 
-/* GetItemInt */
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
+/* None */
+static CYTHON_INLINE long __Pyx_mod_long(long a, long b) {
+    long r = a % b;
+    r += ((r != 0) & ((r ^ b) < 0)) * b;
     return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
 }
 
 /* PyErrFetchRestore */
@@ -4120,6 +4997,148 @@ static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
     if (nogil)
         PyGILState_Release(state);
 #endif
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
 }
 
 /* ArgTypeTest */
@@ -4536,6 +5555,37 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     }
 }
 
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
+                                     little, !is_unsigned);
+    }
+}
+
 /* CIntFromPy */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
@@ -4723,37 +5773,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to int");
     return (int) -1;
-}
-
-/* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
 }
 
 /* CIntFromPy */
@@ -5515,7 +6534,7 @@ static int __Pyx_PyGen__FetchStopIterationValue(CYTHON_UNUSED PyThreadState *__p
     Py_DECREF(ev);
 #else
     {
-        PyObject* args = __Pyx_PyObject_GetAttrStr(ev, __pyx_n_s_args_2);
+        PyObject* args = __Pyx_PyObject_GetAttrStr(ev, __pyx_n_s_args);
         Py_DECREF(ev);
         if (likely(args)) {
             value = PySequence_GetItem(args, 0);
